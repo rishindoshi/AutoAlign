@@ -101,7 +101,7 @@ void BoardPlate::findOptimalPosForNewModel(Model& newModel) {
     search.pop();
     
     if (modelCanFitInPos(newModel, top.x, top.y)) {
-      // Here we need to find new bounding box, re center, and calc distance to edges
+      // TODO: Here we need to find new bounding box, re center, and calc distance to edges
       found = top; 
       break;
     } 

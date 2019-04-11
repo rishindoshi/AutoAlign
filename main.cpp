@@ -9,6 +9,13 @@
 
 using namespace std;
 
+template < template < class ... > class Container, class ... Args >
+void test(Container<Model, Args...>& tester) {
+  for (auto& m : tester) {
+    cout << m.width << endl;
+  }
+}
+
 void arrangeModels(BoardPlate& bp, vector<Model>& models);
 void getInput(int& boardWidth, int& boardHeight, vector<Model>& models);
 
@@ -17,6 +24,7 @@ int main(int argc, char** argv) {
   int boardWidth, boardHeight;
 
   getInput(boardWidth, boardHeight, models);
+
   BoardPlate bp(boardWidth, boardHeight);
 
   arrangeModels(bp, models);
@@ -35,8 +43,6 @@ void getInput(int& boardWidth, int& boardHeight, vector<Model>& models) {
     int width, height;
     char name;
     ss >> width >> height >> name;
-
-    // cout << width << " " << height << " " << name << endl;
 
     Model m(width, height, name);
     models.push_back(m);
