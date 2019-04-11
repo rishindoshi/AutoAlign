@@ -8,13 +8,12 @@ make
 make test1
 make test2
 ```
-* To create your own test case, create a text file formatted as follows:
-
-*boardWidth* *boardHeight*
-
-*model1Width* *model1Height* *model1SingleCharacterName*
-
-*modelNWidth* *modelNHeight* *modelNSingleCharacterName*
+* To create your own test case, create a text file formatted as follows (see test dir for examples):
+```
+<boardWidth> <boardHeight>
+<model1Width> <model1Height> <model1SingleCharacterName>
+<modelNWidth> <modelNHeight> <modelNSingleCharacterName>
+```
 
 
 
