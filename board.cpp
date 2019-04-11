@@ -8,6 +8,14 @@
 
 using namespace std;
 
+void BoardPlate::setWidth(int width_) {
+  width = width_;
+}
+
+void BoardPlate::setHeight(int height_) {
+  height = height_;
+}
+
 void BoardPlate::reCenterModels(Model& newModel) {
   // Find min bounding box for all models
   bb.xmin = min(bb.xmin, newModel.getTopLeftX());

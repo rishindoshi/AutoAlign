@@ -18,6 +18,9 @@ public:
   void printBoard() const;
   void addModel(Model& model);
 
+  void setWidth(int width_);
+  void setHeight(int height_);
+
 private:
 
   std::vector<std::vector<char>> boardCoords;

@@ -2,6 +2,7 @@
 #include <vector>
 #include <deque>
 #include <algorithm>
+#include <sstream>
 
 #include "board.h"
 #include "utility.h"
@@ -9,36 +10,47 @@
 using namespace std;
 
 void arrangeModels(BoardPlate& bp, vector<Model>& models);
+void getInput(int& boardWidth, int& boardHeight, vector<Model>& models);
 
 int main(int argc, char** argv) {
-
-  Model m_a(4, 2, 'a');
-  Model m_b(2, 4, 'b');
-  Model m_c(2, 2, 'c');
-  Model m_d(2, 1, 'd');
-
   vector<Model> models;
-  models.push_back(m_a);
-  models.push_back(m_b);
-  models.push_back(m_c);
-  models.push_back(m_d);
+  int boardWidth, boardHeight;
 
-  BoardPlate bp(10, 8);
-  
+  getInput(boardWidth, boardHeight, models);
+  BoardPlate bp(boardWidth, boardHeight);
+
   arrangeModels(bp, models);
   
   return 0;
 }
 
+void getInput(int& boardWidth, int& boardHeight, vector<Model>& models) {
+  cin >> boardWidth >> boardHeight;
+  string str; 
+  // Trash newline
+  getline(cin, str);
+
+  while (getline(cin, str)) {
+    stringstream ss(str);
+    int width, height;
+    char name;
+    ss >> width >> height >> name;
+
+    // cout << width << " " << height << " " << name << endl;
+
+    Model m(width, height, name);
+    models.push_back(m);
+  }
+}
+
 void arrangeModels(BoardPlate& bp, vector<Model>& models) {
   sort(models.begin(), models.end(), [&](Model& a, Model& b) {
-    return (a.width * a.height) > (b.width * b.height);
+    return (a.width * a.height) < (b.width * b.height);
   });
 
   for (auto& m : models) {
     bp.addModel(m);
+    bp.printBoard();
   }
-
-  bp.printBoard();
 }
 

@@ -27,6 +27,12 @@ board.o: board.h board.cpp
 clean:
 	rm -f $(OBJECTS) $(EXECUTABLE) $(SUBMIT_FILE)
 
+test1:
+	./main < test/test1.txt
+
+test2:
+	./main < test/test2.txt
+
 # these targets do not create any files
 .PHONY: all release debug profile clean submit
 # disable built-in rules
