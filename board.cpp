@@ -54,7 +54,7 @@ void BoardPlate::reCenterModels(Model& newModel) {
 
 // Return true if centering the model at x, y fits within the bounds of the plate
 // and does not overlap exisiting models
-bool BoardPlate::modelCanFitInPos(Model& m, int x, int y) {
+bool BoardPlate::modelCanFitInPos(const Model& m, int x, int y) {
   int mTopLeftX = x;
   int mTopLeftY = y;
 
@@ -139,7 +139,7 @@ void BoardPlate::updateBoardCoords() {
   }
 }
 
-void BoardPlate::printBoard() {
+void BoardPlate::printBoard() const {
   for (unsigned i = 0; i < boardCoords.size(); ++i) {
     for (unsigned j = 0; j < boardCoords[i].size(); ++j) {
       cout << boardCoords[i][j] << " ";

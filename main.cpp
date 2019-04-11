@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
   
   arrangeModels(bp, models);
   
-	return 0;
+  return 0;
 }
 
 void arrangeModels(BoardPlate& bp, vector<Model>& models) {

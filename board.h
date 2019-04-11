@@ -15,14 +15,8 @@ public:
     cY = height / 2;
   }
 
-  // TODO: Not all of these need be public
-  void reCenterModels(Model& newModel);
-  bool modelCanFitInPos(Model& m, int x, int y);
-  void findOptimalPosForNewModel(Model& newModel);
+  void printBoard() const;
   void addModel(Model& model);
-  
-  void updateBoardCoords();
-  void printBoard();
 
 private:
 
@@ -36,6 +30,11 @@ private:
 
   std::vector<Model> models; 
   BoundingBox bb;
+
+  void reCenterModels(Model& newModel);
+  bool modelCanFitInPos(const Model& m, int x, int y);
+  void findOptimalPosForNewModel(Model& newModel);
+  void updateBoardCoords();
 
 };
 
