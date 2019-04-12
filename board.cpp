@@ -19,10 +19,12 @@ void BoardPlate::setHeight(int height_) {
 
 void BoardPlate::reCenterModels(Model& newModel) {
   // Find min bounding box for all models
-  bb.xmin = min(bb.xmin, newModel.getTopLeftX());
-  bb.xmax = max(bb.xmax, newModel.getTopLeftX() + newModel.width - 1);
-  bb.ymin = min(bb.ymin, newModel.getTopLeftY());
-  bb.ymax = max(bb.ymax, newModel.getTopLeftY() + newModel.height - 1);
+  if (newModel.xCoord != -1 && newModel.yCoord != -1) {
+    bb.xmin = min(bb.xmin, newModel.getTopLeftX());
+    bb.xmax = max(bb.xmax, newModel.getTopLeftX() + newModel.width - 1);
+    bb.ymin = min(bb.ymin, newModel.getTopLeftY());
+    bb.ymax = max(bb.ymax, newModel.getTopLeftY() + newModel.height - 1);
+  }
 
   if (bb.xmin > (width - bb.xmax)) {
     int diff = bb.xmin - (width - bb.xmax - 1);
@@ -192,8 +194,14 @@ void BoardPlate::addModel(Model& model) {
     model.yCoord = cY - (model.height / 2);
   }
   else {
+    // If we can't fit new model within our current bounding box, then we need to try
+    // shifting all the models to make space for the new model
+    bool found = true;
     while (findOptimalPosForNewModel(model) == false) {
-      if (bb.xmin == 0 && bb.ymin == 0) break;
+      if (bb.xmin == 0 && bb.ymin == 0) {
+        found = false;
+        break;
+      }
 
       if (bb.xmin > bb.ymin) {
         shiftBBLeft();      
@@ -201,6 +209,14 @@ void BoardPlate::addModel(Model& model) {
       else {
         shiftBBUp();
       }
+    }
+    if (!found) {
+      cerr << "Error: model " << model.name << " can't be fit on board plate" << endl;
+      model.xCoord = -1;
+      model.yCoord = -1;
+      reCenterModels(model);
+      updateBoardCoords();
+      return;
     }
   }
   

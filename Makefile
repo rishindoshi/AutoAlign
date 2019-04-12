@@ -39,6 +39,15 @@ test3:
 test4:
 	./main < test/test4.txt
 
+test5:
+	./main < test/test5.txt
+
+test6:
+	./main < test/test6.txt
+
+test7:
+	./main < test/test7.txt
+
 # these targets do not create any files
 .PHONY: all release debug profile clean submit
 # disable built-in rules
