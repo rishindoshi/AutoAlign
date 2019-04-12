@@ -51,7 +51,7 @@ void getInput(int& boardWidth, int& boardHeight, vector<Model>& models) {
 
 void arrangeModels(BoardPlate& bp, vector<Model>& models) {
   sort(models.begin(), models.end(), [&](Model& a, Model& b) {
-    return (a.width * a.height) < (b.width * b.height);
+    return (a.width * a.height) > (b.width * b.height);
   });
 
   for (auto& m : models) {

@@ -25,6 +25,10 @@ struct Model {
 };
 
 struct BoundingBox {
+  BoundingBox() {}
+  BoundingBox(int xmin_, int ymin_, int xmax_, int ymax_)
+    : xmin(xmin_), ymin(ymin_), xmax(xmax_), ymax(ymax_) {}
+
   int xmin = INT_MAX;
   int xmax = -1;
   int ymin = INT_MAX;

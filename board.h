@@ -36,8 +36,12 @@ private:
 
   void reCenterModels(Model& newModel);
   bool modelCanFitInPos(const Model& m, int x, int y);
-  void findOptimalPosForNewModel(Model& newModel);
+  bool findOptimalPosForNewModel(Model& newModel);
   void updateBoardCoords();
+
+  void shiftBBLeft();
+  void shiftBBUp();
+  int calcAreaBoundingBox(const Model& m, const Coord& coord);
 
 };
 

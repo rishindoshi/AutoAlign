@@ -33,6 +33,12 @@ test1:
 test2:
 	./main < test/test2.txt
 
+test3:
+	./main < test/test3.txt
+
+test4:
+	./main < test/test4.txt
+
 # these targets do not create any files
 .PHONY: all release debug profile clean submit
 # disable built-in rules
