@@ -42,6 +42,7 @@ private:
   void shiftBBLeft();
   void shiftBBUp();
   int calcAreaBoundingBox(const Model& m, const Coord& coord);
+  double calcDistanceBBToEdge(const Model& m);
 
 };
 

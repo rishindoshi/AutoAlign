@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <climits>
 #include <cassert>
+#include <math.h>
+#include <float.h>
 
 using namespace std;
 
@@ -104,6 +106,28 @@ int BoardPlate::calcAreaBoundingBox(const Model& m, const Coord& coord) {
   return (potentialBB.xmax - potentialBB.xmin) * (potentialBB.ymax - potentialBB.ymin);
 }
 
+double BoardPlate::calcDistanceBBToEdge(const Model& m) {
+  BoundingBox potentialBB(bb.xmin, bb.ymin, bb.xmax, bb.ymax);
+  
+  potentialBB.xmin = min(potentialBB.xmin, m.xCoord);
+  potentialBB.xmax = max(potentialBB.xmax, m.xCoord + m.width - 1);
+  potentialBB.ymin = min(potentialBB.ymin, m.yCoord);
+  potentialBB.ymax = max(potentialBB.ymax, m.yCoord + m.height - 1);
+
+  int xmin = potentialBB.xmin;
+  int ymin = potentialBB.ymin;
+  int xmax = potentialBB.xmax;
+  int ymax = potentialBB.ymax;
+
+  int right = width - xmax - 1;
+  int bottom = height - ymax - 1;
+
+  // Not sure if this is the best minimization function but we want
+  // to give greater values to models that put the bounding box to close
+  // to a single edge 
+  return exp(1 / right) + exp(1 / bottom) + exp(1 / xmin) + exp(1 / ymin);
+}
+
 // Start from center and search outwards in breadth first manner
 // for an open position for the new model
 // Then place model in open position and re center all models
@@ -116,7 +140,7 @@ bool BoardPlate::findOptimalPosForNewModel(Model& newModel) {
 
   Coord found;
   bool fit = false;
-  int minArea = INT_MAX;
+  double minArea = DBL_MAX;
 
   while (!search.empty()) {
     Coord top = search.front();
@@ -133,9 +157,10 @@ bool BoardPlate::findOptimalPosForNewModel(Model& newModel) {
     if (modelCanFitInPos(newModel, top.x, top.y)) {
       fit = true;
 
-      int potentialArea = calcAreaBoundingBox(newModel, Coord(top.x, top.y));
-      if (potentialArea < minArea) {
-        minArea = potentialArea;
+      // int potentialArea = calcAreaBoundingBox(newModel, Coord(top.x, top.y));
+      double dist = calcDistanceBBToEdge(newModel);
+      if (dist < minArea) {
+        minArea = dist;
         found = top;
       }
     } 
@@ -210,6 +235,7 @@ void BoardPlate::addModel(Model& model) {
         shiftBBUp();
       }
     }
+
     if (!found) {
       cerr << "Error: model " << model.name << " can't be fit on board plate" << endl;
       model.xCoord = -1;
